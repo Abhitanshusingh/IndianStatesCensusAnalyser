@@ -23,14 +23,14 @@ public class StateCensusAnalyserTest {
         try {
             cencusAnalyser.loadCensusCsvData(INCORRECT_CSV_PATH);
         } catch (StateCensusAnalyserException e) {
-            Assert.assertEquals(StateCensusAnalyserException.Exceptiontype.ENTER_WRONG_TYPE, e.type);
+            Assert.assertEquals(StateCensusAnalyserException.Exceptiontype.FILE_NOT_FOUND, e.type);
         }
     }
 
     @Test
     public void givenStateCensusCsvFile_WhenTypeIncorrect_ShouldThrowCustomException() {
         try {
-            cencusAnalyser.loadCensusCsvData(INCORRECT_CSV_TYPE);
+            cencusAnalyser.loadCensusCsvDataIncorrectType(INCORRECT_CSV_TYPE);
         } catch (StateCensusAnalyserException e) {
             Assert.assertEquals(StateCensusAnalyserException.Exceptiontype.ENTER_WRONG_TYPE, e.type);
         }
