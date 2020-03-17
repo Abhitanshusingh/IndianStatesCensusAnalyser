@@ -12,6 +12,7 @@ import java.util.Iterator;
 
 public class StateCensusAnalyser {
     int countRecord = 0;
+
     //READING AND PRINTING DATA FROM CSV FILE
     public int loadCensusCsvData(String SAMPLE_CSV_PATH) throws StateCensusAnalyserException {
         try (Reader reader = Files.newBufferedReader(Paths.get(SAMPLE_CSV_PATH));) {
@@ -31,6 +32,8 @@ public class StateCensusAnalyser {
             }
         } catch (IOException e) {
             throw new StateCensusAnalyserException(StateCensusAnalyserException.Exceptiontype.FILE_NOT_FOUND, e.getMessage());
+        } catch (RuntimeException e) {
+            throw new StateCensusAnalyserException(StateCensusAnalyserException.Exceptiontype.DELIMITER_INCORRECT, e.getMessage());
         }
         return countRecord;
     }
