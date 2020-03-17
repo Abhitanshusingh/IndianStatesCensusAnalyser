@@ -12,7 +12,7 @@ public class StateCensusAnalyserTest {
     private final String SIMPLE_CSV_PATH = "/home/bridgelabz/Desktop/JavaPrograms/IndianStateCensusAnalyser/src/test/resources/StateCensusData.csv";
     private final String INCORRECT_CSV_PATH = "/home/bridgelabz/Desktop/JavaProgram";
     private final String INCORRECT_CSV_TYPE = "/home/bridgelabz/Desktop/JavaPrograms/IndianStateCensusAnalyser/src/test/resources/StateCensusData.pdf";
-    private final String DATA1_CSV_PATH = "/home/bridgelabz/Desktop/JavaPrograms/IndianStateCensusAnalyser/src/test/resources/StateCensusData1.csv";
+    private final String INCORRECT_DELIMITER = "/home/bridgelabz/Desktop/JavaPrograms/IndianStateCensusAnalyser/src/test/resources/StateCensusData1.csv";
 
     @Test
     public void givenStateCensusCsvFile_WhenTrue_NumberOfRecordShouldMatch()
@@ -33,10 +33,19 @@ public class StateCensusAnalyserTest {
     @Test
     public void givenStateCensusCsvFile_WhenTypeIncorrect_ShouldThrowCustomException() {
         try {
-            File fileExtension= new File(INCORRECT_CSV_TYPE);
+            File fileExtension = new File(INCORRECT_CSV_TYPE);
             cencusAnalyser.getFileExtension(fileExtension);
         } catch (StateCensusAnalyserException e) {
             Assert.assertEquals(StateCensusAnalyserException.Exceptiontype.ENTER_WRONG_TYPE, "FILE TYPE INCORRECT");
+        }
+    }
+
+    @Test
+    public void givenStateCensusCsvFile_WhenDelimiterIncorrect_ShouldThrowCustomException() {
+        try {
+            cencusAnalyser.loadCensusCsvData(INCORRECT_DELIMITER);
+        } catch (StateCensusAnalyserException e) {
+            Assert.assertEquals(StateCensusAnalyserException.Exceptiontype.DELIMITER_INCORRECT, e.type);
         }
     }
 }
