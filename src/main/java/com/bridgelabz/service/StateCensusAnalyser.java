@@ -33,6 +33,7 @@ public class StateCensusAnalyser{
                 System.out.println("<=========================>");
                 countRecord++;
             }
+            return countRecord;
         }
         catch (IOException e)
         {
@@ -42,9 +43,8 @@ public class StateCensusAnalyser{
         catch (RuntimeException e)
         {
             throw new StateCensusAnalyserException
-                    (StateCensusAnalyserException.Exceptiontype.NO_SUCH_HEADER, e.getMessage());
+                    (StateCensusAnalyserException.Exceptiontype.INCORRECT_DELIMITER_OR_HEADER, e.getMessage());
         }
-        return countRecord;
     }
 
     //READ FILE EXTENSION
