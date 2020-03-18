@@ -2,7 +2,8 @@ package com.bridgelabz.model;
 
 import com.opencsv.bean.CsvBindByName;
 //COLUMN NAME OF StateCensusAnalyserData
-public class CSVStateCensus {
+public class CSVStateCensus
+{
     @CsvBindByName
     private String State;
 
@@ -16,35 +17,43 @@ public class CSVStateCensus {
     private String DensityPerSqkm;
 
     //GETTER SETTER METHOD
-    public void setState(String state) {
+    public void setState(String state)
+    {
         State = state;
     }
 
-    public void setPopulation(String population) {
+    public void setPopulation(String population)
+    {
         Population = population;
     }
 
-    public void setAreaInSqKm(String areaInSqKm) {
+    public void setAreaInSqKm(String areaInSqKm)
+    {
         AreaInSqKm = areaInSqKm;
     }
 
-    public void setDensityPerSqkm(String densityPerSqkm) {
+    public void setDensityPerSqkm(String densityPerSqkm)
+    {
         DensityPerSqkm = densityPerSqkm;
     }
 
-    public String getState() {
+    public String getState()
+    {
         return State;
     }
 
-    public String getPopulation() {
+    public String getPopulation()
+    {
         return Population;
     }
 
-    public String getAreaInSqKm() {
+    public String getAreaInSqKm()
+    {
         return AreaInSqKm;
     }
 
-    public String getDensityPerSqkm() {
+    public String getDensityPerSqkm()
+    {
         return DensityPerSqkm;
     }
 }
