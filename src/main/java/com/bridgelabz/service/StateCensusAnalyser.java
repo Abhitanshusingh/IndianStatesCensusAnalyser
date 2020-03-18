@@ -10,8 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Iterator;
 
-public class StateCensusAnalyser
-{
+public class StateCensusAnalyser{
     int countRecord = 0;
 
     //READING AND PRINTING DATA FROM CSV FILE
@@ -37,11 +36,13 @@ public class StateCensusAnalyser
         }
         catch (IOException e)
         {
-            throw new StateCensusAnalyserException(StateCensusAnalyserException.Exceptiontype.FILE_NOT_FOUND, e.getMessage());
+            throw new StateCensusAnalyserException
+                    (StateCensusAnalyserException.Exceptiontype.FILE_NOT_FOUND, e.getMessage());
         }
         catch (RuntimeException e)
         {
-            throw new StateCensusAnalyserException(StateCensusAnalyserException.Exceptiontype.DELIMITER_INCORRECT, e.getMessage());
+            throw new StateCensusAnalyserException
+                    (StateCensusAnalyserException.Exceptiontype.NO_SUCH_HEADER, e.getMessage());
         }
         return countRecord;
     }
@@ -56,7 +57,8 @@ public class StateCensusAnalyser
             extension = name.substring(name.lastIndexOf("."));
             if (!extension.equals(".csv"))
             {
-                throw new StateCensusAnalyserException(StateCensusAnalyserException.Exceptiontype.ENTER_WRONG_TYPE, "FILE_TYPE_INCORRECT");
+                throw new StateCensusAnalyserException
+                        (StateCensusAnalyserException.Exceptiontype.ENTER_WRONG_TYPE, "FILE_TYPE_INCORRECT");
             }
         }
     }
