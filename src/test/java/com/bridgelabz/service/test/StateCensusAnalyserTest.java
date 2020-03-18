@@ -11,8 +11,9 @@ public class StateCensusAnalyserTest {
     StateCensusAnalyser cencusAnalyser = new StateCensusAnalyser();
     private final String SIMPLE_CSV_PATH = "./src/test/resources/StateCensusData.csv";
     private final String INCORRECT_CSV_PATH = "/home/bridgelabz/Desktop/JavaProgram";
-    private final String INCORRECT_CSV_TYPE = "./src/test/resources/StateCensusData.pdf";
-    private final String INCORRECT_DELIMITER = "./src/test/resources/StateCensusData1.csv";
+    private final String INCORRECT_CSV_TYPE_PATH = "./src/test/resources/StateCensusData.pdf";
+    private final String INCORRECT_DELIMITER_PATH = "./src/test/resources/StateCensusData1.csv";
+    private final String INCORRECT_HEADER_PATH = "./src/test/resources/StateCensusData2.csv";
 
     @Test
     public void givenStateCensusCsvFile_WhenTrue_NumberOfRecordShouldMatch() throws StateCensusAnalyserException
@@ -30,7 +31,7 @@ public class StateCensusAnalyserTest {
         }
         catch (StateCensusAnalyserException e)
         {
-            Assert.assertEquals(StateCensusAnalyserException.Exceptiontype.FILE_NOT_FOUND, e.type);
+            Assert.assertEquals(StateCensusAnalyserException.Exceptiontype.FILE_NOT_FOUND,e.type);
         }
     }
 
@@ -39,7 +40,7 @@ public class StateCensusAnalyserTest {
     {
         try
         {
-            cencusAnalyser.getFileExtension(new File(INCORRECT_CSV_TYPE));
+            cencusAnalyser.getFileExtension(new File(INCORRECT_CSV_TYPE_PATH));
         }
         catch (StateCensusAnalyserException e)
         {
@@ -52,11 +53,25 @@ public class StateCensusAnalyserTest {
     {
         try
         {
-            cencusAnalyser.loadCensusCsvData(INCORRECT_DELIMITER);
+            cencusAnalyser.loadCensusCsvData(INCORRECT_DELIMITER_PATH);
         }
         catch (StateCensusAnalyserException e)
         {
-            Assert.assertEquals(StateCensusAnalyserException.Exceptiontype.DELIMITER_INCORRECT, e.type);
+            Assert.assertEquals(StateCensusAnalyserException.Exceptiontype.DELIMITER_INCORRECT,e.type);
         }
     }
+
+    @Test
+    public void givenStateCensusCsvFile_WhenHeaderIncorrect_ShouldThrowCustomException()
+    {
+        try
+        {
+            cencusAnalyser.loadCensusCsvData(INCORRECT_HEADER_PATH);
+        }
+        catch (StateCensusAnalyserException e)
+        {
+            Assert.assertEquals(StateCensusAnalyserException.Exceptiontype.NO_SUCH_HEADER,e.type);
+        }
+    }
+
 }
