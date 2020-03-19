@@ -3,8 +3,6 @@ package com.bridgelabz.service;
 import com.bridgelabz.exception.StateCensusAnalyserException;
 import com.bridgelabz.model.CSVStateCensus;
 import com.bridgelabz.model.CSVStatesCode;
-import com.opencsv.bean.CsvToBean;
-import com.opencsv.bean.CsvToBeanBuilder;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,7 +19,8 @@ public class StateCensusAnalyser{
     {
         try (Reader reader = Files.newBufferedReader(Paths.get(SAMPLE_CSV_PATH));)
         {
-            Iterator<CSVStateCensus> censusCSVIterator=this.getCSVFileIterator(reader,CSVStateCensus.class);
+            Iterator<CSVStateCensus> censusCSVIterator=new OpenCSVBuilder()
+                    .getCSVFileIterator(reader,CSVStateCensus.class);
             while (censusCSVIterator.hasNext())
             {
                 CSVStateCensus csvStateCensus = censusCSVIterator.next();
@@ -46,7 +45,8 @@ public class StateCensusAnalyser{
     {
         try (Reader reader = Files.newBufferedReader(Paths.get(CSV_PATH));)
         {
-            Iterator<CSVStatesCode> csvStatesCodeIterator=this.getCSVFileIterator(reader,CSVStatesCode.class);
+            Iterator<CSVStatesCode> csvStatesCodeIterator=new OpenCSVBuilder()
+                    .getCSVFileIterator(reader,CSVStatesCode.class);
 
             while (csvStatesCodeIterator.hasNext())
             {
@@ -80,20 +80,6 @@ public class StateCensusAnalyser{
                 throw new StateCensusAnalyserException
                         (StateCensusAnalyserException.Exceptiontype.ENTER_WRONG_TYPE, "FILE_TYPE_INCORRECT");
             }
-        }
-    }
-    //CREATE GENERIC METHOD TO ITERATE CSV FILE
-    private <E> Iterator<E> getCSVFileIterator(Reader reader, Class<E> csvClass) throws StateCensusAnalyserException {
-        try {
-            CsvToBeanBuilder<E> csvToBeanBuilder = new CsvToBeanBuilder<>(reader);
-            csvToBeanBuilder.withType(csvClass);
-            csvToBeanBuilder.withIgnoreLeadingWhiteSpace(true);
-            CsvToBean<E> csvToBean = csvToBeanBuilder.build();
-            Iterator<E> censusCSVIterator = csvToBean.iterator();
-            return censusCSVIterator;
-        } catch (IllegalStateException e) {
-            throw new StateCensusAnalyserException
-                    (StateCensusAnalyserException.Exceptiontype.ILLEGAL_STATE,e.getMessage());
         }
     }
 }
