@@ -6,6 +6,7 @@ import org.junit.Test;
 import java.io.File;
 
 public class StateCensusAnalyserTest {
+    //CREATED OBJECT OF SATAE CENSUS ANALYSER CALSS
     StateCensusAnalyser cencusAnalyser = new StateCensusAnalyser();
     //CSV STATE CENSUS DATA PATH
     private final String SIMPLE_CSV_PATH = "./src/test/resources/StateCensusData.csv";
