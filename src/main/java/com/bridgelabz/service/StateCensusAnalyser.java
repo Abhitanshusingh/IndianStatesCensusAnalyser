@@ -82,7 +82,7 @@ public class StateCensusAnalyser{
             }
         }
     }
-    //CREATE GENERIC METHOD
+    //CREATE GENERIC METHOD TO ITERATE CSV FILE
     private <E> Iterator<E> getCSVFileIterator(Reader reader, Class<E> csvClass) throws StateCensusAnalyserException {
         try {
             CsvToBeanBuilder<E> csvToBeanBuilder = new CsvToBeanBuilder<>(reader);
