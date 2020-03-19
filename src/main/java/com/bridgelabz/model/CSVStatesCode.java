@@ -47,15 +47,4 @@ public class CSVStatesCode
     {
         return StateName;
     }
-
-
-    public String getTIN()
-    {
-        return TIN;
-    }
-
-    public String getStateCode()
-    {
-        return StateCode;
-    }
 }
