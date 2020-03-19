@@ -1,14 +1,12 @@
 package com.bridgelabz.service.test;
 import com.bridgelabz.exception.StateCensusAnalyserException;
 import com.bridgelabz.service.StateCensusAnalyser;
-import com.bridgelabz.service.StateCodeAnalyser;
 import org.junit.Assert;
 import org.junit.Test;
 import java.io.File;
 
 public class StateCensusAnalyserTest {
     StateCensusAnalyser cencusAnalyser = new StateCensusAnalyser();
-    StateCodeAnalyser codeAnalyser = new StateCodeAnalyser();
     //CSV STATE CENSUS DATA PATH
     private final String SIMPLE_CSV_PATH = "./src/test/resources/StateCensusData.csv";
     private final String INCORRECT_CSV_PATH = "/home/bridgelabz/Desktop/JavaProgram";
@@ -84,7 +82,7 @@ public class StateCensusAnalyserTest {
     @Test
     public void givenStateCodeCsvFile_WhenTrue_NumberOfRecordShouldMatch() throws StateCensusAnalyserException
     {
-        int totalRecords = codeAnalyser.loadCensusCsvData(CSV_STATE_CODE_PATH);
+        int totalRecords = cencusAnalyser.loadSateCodeCsvData(CSV_STATE_CODE_PATH);
         Assert.assertEquals(37,totalRecords);
     }
 
@@ -93,7 +91,7 @@ public class StateCensusAnalyserTest {
     {
         try
         {
-            codeAnalyser.loadCensusCsvData(INCORRECT_CSV_STATE_CODE_PATH);
+            cencusAnalyser.loadSateCodeCsvData(INCORRECT_CSV_STATE_CODE_PATH);
         }
         catch (StateCensusAnalyserException e)
         {
@@ -106,7 +104,7 @@ public class StateCensusAnalyserTest {
     {
         try
         {   File fileExtension=new File(INCORRECT_EXTENSION_CSV_STATE_CODE);
-            codeAnalyser.getFileExtension(fileExtension);
+            cencusAnalyser.getFileExtension(fileExtension);
         }
         catch (StateCensusAnalyserException e)
         {
@@ -119,7 +117,7 @@ public class StateCensusAnalyserTest {
     {
         try
         {
-            codeAnalyser.loadCensusCsvData(INCORRECT_IN_DELIMITER_CSV_STATE_CODE_PATH);
+            cencusAnalyser.loadSateCodeCsvData(INCORRECT_IN_DELIMITER_CSV_STATE_CODE_PATH);
         }
         catch (StateCensusAnalyserException e)
         {
@@ -132,7 +130,7 @@ public class StateCensusAnalyserTest {
     {
         try
         {
-            codeAnalyser.loadCensusCsvData(INCORRECT_IN_HEADER_CSV_STATE_CODE_PATH);
+            cencusAnalyser.loadSateCodeCsvData(INCORRECT_IN_HEADER_CSV_STATE_CODE_PATH);
         }
         catch (StateCensusAnalyserException e)
         {
