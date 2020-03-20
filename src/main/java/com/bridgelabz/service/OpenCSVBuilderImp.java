@@ -1,6 +1,6 @@
 package com.bridgelabz.service;
 
-import com.bridgelabz.exception.StateCensusAnalyserException;
+import com.bridgelabz.exception.CSVBuilderException;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 
@@ -10,7 +10,7 @@ import java.util.Iterator;
 public class OpenCSVBuilderImp<E> implements ICSVBuilder{
     //CREATE GENERIC METHOD TO ITERATE CSV FILE
     @Override
-    public <E> Iterator<E> getCSVFileIterator(Reader reader, Class<E> csvClass) throws StateCensusAnalyserException {
+    public <E> Iterator<E> getCSVFileIterator(Reader reader, Class<E> csvClass) throws CSVBuilderException {
         try {
             CsvToBeanBuilder<E> csvToBeanBuilder = new CsvToBeanBuilder<>(reader);
             csvToBeanBuilder.withType(csvClass);
@@ -19,8 +19,8 @@ public class OpenCSVBuilderImp<E> implements ICSVBuilder{
             Iterator<E> censusCSVIterator = csvToBean.iterator();
             return censusCSVIterator;
         } catch (IllegalStateException e) {
-            throw new StateCensusAnalyserException
-                    (StateCensusAnalyserException.Exceptiontype.ILLEGAL_STATE,e.getMessage());
+            throw new CSVBuilderException
+                    (CSVBuilderException.ExceptionType.ILLEGAL_STATE,e.getMessage());
         }
     }
 }
