@@ -8,24 +8,23 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 import java.util.Iterator;
+import java.util.List;
 
-public class StateCensusAnalyser{
+public class StateCensusAnalyser
+{
     int countRecord = 0;
 
     //READING AND PRINTING DATA FROM CSV FILE
-    public int loadCensusCsvData(String SAMPLE_CSV_PATH) throws CSVBuilderException {
+    public int loadCensusCsvData(String SAMPLE_CSV_PATH) throws CSVBuilderException
+    {
         try (Reader reader = Files.newBufferedReader(Paths.get(SAMPLE_CSV_PATH));)
         {
             ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
-            Iterator<CSVStateCensus> censusCSVIterator = csvBuilder.getCSVFileIterator(reader, CSVStateCensus.class);
-            while (censusCSVIterator.hasNext())
-            {
-                CSVStateCensus csvStateCensus = censusCSVIterator.next();
-                countRecord++;
-            }
-            return countRecord;
+            List<CSVStateCensus> censusCSVList = csvBuilder.getCSVFileList(reader, CSVStateCensus.class);
+            return censusCSVList.size();
         }
         catch (IOException e)
         {
@@ -40,18 +39,13 @@ public class StateCensusAnalyser{
     }
 
     //READING AND PRINTING DATA FROM CSV FILE
-    public int loadSateCodeCsvData(String CSV_PATH) throws CSVBuilderException {
+    public int loadSateCodeCsvData(String CSV_PATH) throws CSVBuilderException
+    {
         try (Reader reader = Files.newBufferedReader(Paths.get(CSV_PATH));)
         {
             ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
-            Iterator<CSVStatesCode> csvStatesCodeIterator = csvBuilder.getCSVFileIterator(reader, CSVStatesCode.class);
-
-            while (csvStatesCodeIterator.hasNext())
-            {
-                countRecord++;
-                CSVStatesCode csvStatesCode= csvStatesCodeIterator.next();
-            }
-            return countRecord;
+            List<CSVStatesCode> censusCSVList = csvBuilder.getCSVFileList(reader, CSVStatesCode.class);
+            return censusCSVList.size();
         }
         catch (IOException e)
         {
