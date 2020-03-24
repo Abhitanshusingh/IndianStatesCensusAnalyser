@@ -2,8 +2,7 @@ package com.bridgelabz.model;
 
 import com.opencsv.bean.CsvBindByName;
 
-public class CSVStatesCode
-{
+public class CSVStatesCode {
     //COLUMN NAME OF StateCensusCode
     @CsvBindByName
     private String SrNo;
@@ -18,33 +17,27 @@ public class CSVStatesCode
     private String StateCode;
 
     //GETTER SETTER METHOD
-    public void setSrNo(String srNo)
-    {
+    public void setSrNo(String srNo) {
         SrNo = srNo;
     }
 
-    public void setStateName(String stateName)
-    {
+    public void setStateName(String stateName) {
         StateName = stateName;
     }
 
-    public void setTIN(String TIN)
-    {
+    public void setTIN(String TIN) {
         this.TIN = TIN;
     }
 
-    public void setStateCode(String stateCode)
-    {
+    public void setStateCode(String stateCode) {
         StateCode = stateCode;
     }
 
-    public String getSrNo()
-    {
+    public String getSrNo() {
         return SrNo;
     }
 
-    public String getStateName()
-    {
+    public String getStateName() {
         return StateName;
     }
 }
