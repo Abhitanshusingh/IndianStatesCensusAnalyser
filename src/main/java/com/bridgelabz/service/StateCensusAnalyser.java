@@ -61,25 +61,36 @@ public class StateCensusAnalyser {
             }
         }
     }
-    //SORTING IN A JSON FORMATs
+
+    //SORTING IN A JSON FORMATS TO STATE CENSUS DATA
     public String getStateWiseSortedCensusData() throws CSVBuilderException {
         if (stateCensusRecords == null || stateCensusRecords.size() == 0)
-            throw new CSVBuilderException(CSVBuilderException.ExceptionType.NO_CENSUS_DATA, "NO_CENSUS_DATA");
+            throw new CSVBuilderException(CSVBuilderException.ExceptionType.NO_CENSUS_DATA, "No data found");
         Comparator<CSVStateCensus> censusCSVComparator = Comparator.comparing(census -> census.getState());
-        this.sort(censusCSVComparator);
+        this.sort(censusCSVComparator, stateCensusRecords);
         String sortedStateCensusJson = new Gson().toJson(stateCensusRecords);
         return sortedStateCensusJson;
     }
 
-    //SORTING CSV STATE CENSUS DATA
-    public void sort(Comparator<CSVStateCensus> censusCSVComparator) {
-        for (int iterate = 0; iterate < stateCensusRecords.size() - 1; iterate++) {
-            for (int Inneriterate = 0; Inneriterate < stateCensusRecords.size() - iterate - 1; Inneriterate++) {
-                CSVStateCensus census1 = stateCensusRecords.get(Inneriterate);
-                CSVStateCensus census2 = stateCensusRecords.get(Inneriterate + 1);
+    //SORTING IN A JSON FORMATS TO STATE CODE DATA
+    public String getStateCodeWiseSortedData() throws CSVBuilderException {
+        if (stateCensusCodesRecord == null || stateCensusCodesRecord.size() == 0)
+            throw new CSVBuilderException(CSVBuilderException.ExceptionType.NO_CENSUS_DATA, "No data found");
+        Comparator<CSVStatesCode> stateCodeCSVComparator = Comparator.comparing(stateCode -> stateCode.getStateCode());
+        this.sort(stateCodeCSVComparator, stateCensusCodesRecord);
+        String sortedStateCodeJson = new Gson().toJson(stateCensusCodesRecord);
+        return sortedStateCodeJson;
+    }
+
+    //SORTING CSV FILE GENERIC METHOD
+    public <E> void sort(Comparator<E> censusCSVComparator, List censusRecords) {
+        for (int iterate = 0; iterate < censusRecords.size() - 1; iterate++) {
+            for (int Inneriterate = 0; Inneriterate < censusRecords.size() - iterate - 1; Inneriterate++) {
+                E census1 = (E) censusRecords.get(Inneriterate);
+                E census2 = (E) censusRecords.get(Inneriterate + 1);
                 if (censusCSVComparator.compare(census1, census2) > 0) {
-                    stateCensusRecords.set(Inneriterate, census2);
-                    stateCensusRecords.set(Inneriterate + 1, census1);
+                    censusRecords.set(Inneriterate, census2);
+                    censusRecords.set(Inneriterate + 1, census1);
                 }
             }
         }
