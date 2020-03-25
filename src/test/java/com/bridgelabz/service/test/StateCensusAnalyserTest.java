@@ -3,12 +3,14 @@ package com.bridgelabz.service.test;
 import com.bridgelabz.exception.CSVBuilderException;
 import com.bridgelabz.exception.StateCensusAnalyserException;
 import com.bridgelabz.model.CSVStateCensus;
+import com.bridgelabz.model.CSVStatesCode;
 import com.bridgelabz.service.StateCensusAnalyser;
 import com.google.gson.Gson;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.File;
+import java.lang.invoke.CallSite;
 
 public class StateCensusAnalyserTest {
     //CREATED OBJECT OF SATAE CENSUS ANALYSER CALSS
@@ -119,6 +121,7 @@ public class StateCensusAnalyserTest {
             String sortedCensusData = censusAnalyser.getStateWiseSortedCensusData();
             CSVStateCensus[] censusCSV = new Gson().fromJson(sortedCensusData, CSVStateCensus[].class);
             Assert.assertEquals("Andhra Pradesh", censusCSV[0].getState());
+            Assert.assertEquals("West Bengal", censusCSV[28].getState());
         } catch (CSVBuilderException e) {
             e.printStackTrace();
         }
@@ -146,5 +149,22 @@ public class StateCensusAnalyserTest {
         } catch (CSVBuilderException e) {
             e.printStackTrace();
         }
+    }
+
+    @Test
+    public void givenStateCodeCsvFilee_WhenSortedOnStateCode_ShouldReturnSortedList() throws CSVBuilderException {
+        censusAnalyser.loadSateCodeCsvData(CSV_STATE_CODE_PATH);
+        String sortedStateCodeData = censusAnalyser.getStateCodeWiseSortedData();
+        CSVStatesCode[] stateCodes = new Gson().fromJson(sortedStateCodeData, CSVStatesCode[].class);
+        Assert.assertEquals("AD", stateCodes[0].getStateCode());
+        Assert.assertEquals("WB", stateCodes[36].getStateCode());
+    }
+
+    @Test
+    public void givenStateCodeCsvFile_WhenSortedOnStateCode_ShouldReturnSortedList() throws CSVBuilderException {
+        censusAnalyser.loadSateCodeCsvData(CSV_STATE_CODE_PATH);
+        String sortedStateCodeCensusData = censusAnalyser.getStateCodeWiseSortedData();
+        CSVStatesCode[] stateCensusesCSV = new Gson().fromJson(sortedStateCodeCensusData, CSVStatesCode[].class);
+        Assert.assertNotEquals("Madhya PradeshH", stateCensusesCSV[0].getStateCode());
     }
 }
