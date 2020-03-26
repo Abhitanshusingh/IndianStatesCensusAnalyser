@@ -161,10 +161,10 @@ public class StateCensusAnalyserTest {
     }
 
     @Test
-    public void givenStateCodeCsvFile_WhenSortedOnStateCode_ShouldReturnSortedList() throws CSVBuilderException {
+    public void givenStateCodeCsvFile_WhenSortedImproperOnStateCode_ShouldNotReturnSortedList() throws CSVBuilderException {
         censusAnalyser.loadSateCodeCsvData(CSV_STATE_CODE_PATH);
         String sortedStateCodeCensusData = censusAnalyser.getStateCodeWiseSortedData();
         CSVStatesCode[] stateCensusesCSV = new Gson().fromJson(sortedStateCodeCensusData, CSVStatesCode[].class);
-        Assert.assertNotEquals("Madhya PradeshH", stateCensusesCSV[0].getStateCode());
+        Assert.assertNotEquals("Madhya Pradesh", stateCensusesCSV[0].getStateCode());
     }
 }
