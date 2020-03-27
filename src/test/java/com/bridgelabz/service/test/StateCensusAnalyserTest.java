@@ -198,4 +198,17 @@ public class StateCensusAnalyserTest {
             e.printStackTrace();
         }
     }
+
+    @Test
+    public void givenStateCensusCsvFile_WhenSortedOnLargestArea_ShouldReturnSortedList() {
+        try {
+            censusAnalyser.loadStateCensusData(SIMPLE_CSV_PATH);
+            String sortedStateCensusData = censusAnalyser.getStateCensusLargestAreaWiseSortedData();
+            IndianCensusDAO[] stateCensusesCSV = new Gson().fromJson(sortedStateCensusData, IndianCensusDAO[].class);
+            Assert.assertEquals("Rajasthan", stateCensusesCSV[0].state);
+            Assert.assertEquals("Goa", stateCensusesCSV[28].state);
+        } catch (CSVBuilderException e) {
+            e.printStackTrace();
+        }
+    }
 }
