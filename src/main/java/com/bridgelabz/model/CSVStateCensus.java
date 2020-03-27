@@ -1,59 +1,51 @@
 package com.bridgelabz.model;
 
 import com.opencsv.bean.CsvBindByName;
+
 //COLUMN NAME OF StateCensusAnalyserData
-public class CSVStateCensus
-{
-    @CsvBindByName
+public class CSVStateCensus {
+    @CsvBindByName(column = "State")
     private String State;
 
-    @CsvBindByName
-    private String Population;
+    @CsvBindByName(column = "Population")
+    private Double Population;
 
-    @CsvBindByName
-    private String AreaInSqKm;
+    @CsvBindByName(column = "AreaInSqKm")
+    private Double AreaInSqKm;
 
-    @CsvBindByName
-    private String DensityPerSqkm;
+    @CsvBindByName(column = "DensityPerSqkm")
+    private Double DensityPerSqkm;
 
     //GETTER SETTER METHOD
-    public void setState(String state)
-    {
+    public void setState(String state) {
         State = state;
     }
 
-    public void setPopulation(String population)
-    {
+    public void setPopulation(Double population) {
         Population = population;
     }
 
-    public void setAreaInSqKm(String areaInSqKm)
-    {
+    public void setAreaInSqKm(Double areaInSqKm) {
         AreaInSqKm = areaInSqKm;
     }
 
-    public void setDensityPerSqkm(String densityPerSqkm)
-    {
+    public void setDensityPerSqkm(Double densityPerSqkm) {
         DensityPerSqkm = densityPerSqkm;
     }
 
-    public String getState()
-    {
+    public String getState() {
         return State;
     }
 
-    public String getPopulation()
-    {
+    public Double getPopulation() {
         return Population;
     }
 
-    public String getAreaInSqKm()
-    {
+    public Double getAreaInSqKm() {
         return AreaInSqKm;
     }
 
-    public String getDensityPerSqkm()
-    {
+    public Double getDensityPerSqkm() {
         return DensityPerSqkm;
     }
 }

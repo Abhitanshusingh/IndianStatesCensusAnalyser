@@ -29,18 +29,6 @@ public class OpenCSVBuilderImp<E> implements ICSVBuilder {
         return (List<E>) this.getCSVBean(reader, csvClass).parse();
     }
 
-    @Override
-    public <E> HashMap<E, E> getCSVFileMap(Reader reader, Class csvClass) throws CSVBuilderException {
-        List list = getCSVFileList(reader, csvClass);
-        Map<Integer,Object> map = new HashMap<Integer, Object>();
-        Integer count =0;
-        for (Object ob:list) {
-            map.put( count, ob);
-            count++;
-        }
-        return (HashMap<E, E>) map;
-    }
-
     private CsvToBean<E> getCSVBean(Reader reader, Class csvClass) throws CSVBuilderException {
         try {
             CsvToBeanBuilder<E> csvToBeanBuilder = new CsvToBeanBuilder<>(reader);

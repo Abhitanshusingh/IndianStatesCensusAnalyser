@@ -4,20 +4,20 @@ import com.opencsv.bean.CsvBindByName;
 
 public class CSVStatesCode {
     //COLUMN NAME OF StateCensusCode
-    @CsvBindByName
-    private String SrNo;
+    @CsvBindByName(column = "SrNo")
+    private Integer SrNo;
 
-    @CsvBindByName
+    @CsvBindByName(column = "StateName")
     private String StateName;
 
-    @CsvBindByName
-    private String TIN;
+    @CsvBindByName(column = "TIN")
+    private Integer TIN;
 
-    @CsvBindByName
+    @CsvBindByName(column = "StateCode")
     private String StateCode;
 
     //GETTER SETTER METHOD
-    public void setSrNo(String srNo) {
+    public void setSrNo(Integer srNo) {
         SrNo = srNo;
     }
 
@@ -25,7 +25,7 @@ public class CSVStatesCode {
         StateName = stateName;
     }
 
-    public void setTIN(String TIN) {
+    public void setTIN(Integer TIN) {
         this.TIN = TIN;
     }
 
@@ -33,11 +33,19 @@ public class CSVStatesCode {
         StateCode = stateCode;
     }
 
-    public String getSrNo() {
+    public Integer getSrNo() {
         return SrNo;
     }
 
     public String getStateName() {
         return StateName;
+    }
+
+    public String getStateCode() {
+        return StateCode;
+    }
+
+    public Integer getTIN() {
+        return TIN;
     }
 }
