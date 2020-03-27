@@ -19,7 +19,7 @@ public class StateCensusAnalyser {
     HashMap<String, IndianCensusDAO> censusDAOMap = new HashMap<String, IndianCensusDAO>();
 
     //READING STATE CENSUS DATA FROM CSV FILE
-    public int loadStateCensusCsvData(String csvPath) throws CSVBuilderException {
+    public int loadStateCensusData(String csvPath) throws CSVBuilderException {
         try (Reader reader = Files.newBufferedReader(Paths.get(csvPath));) {
             ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
             Iterator<CSVStateCensus> csvFileIterator = csvBuilder.getCSVFileIterator(reader, CSVStateCensus.class);
@@ -38,7 +38,7 @@ public class StateCensusAnalyser {
     }
 
     //READING STATE CODE DATA FROM CSV FILE
-    public int loadStateCodeCsvData(String csvPath) throws CSVBuilderException {
+    public int loadStateCodeData(String csvPath) throws CSVBuilderException {
         try (Reader reader = Files.newBufferedReader(Paths.get(csvPath));) {
             ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
             Iterator<CSVStatesCode> csvFileIterator = csvBuilder.getCSVFileIterator(reader, CSVStatesCode.class);
@@ -73,9 +73,9 @@ public class StateCensusAnalyser {
     public String getStateWiseSortedCensusData() throws CSVBuilderException {
         if (censusDAOMap == null || censusDAOMap.size() == 0)
             throw new CSVBuilderException(CSVBuilderException.ExceptionType.NO_CENSUS_DATA, "No data found");
-        Comparator<Map.Entry<String, IndianCensusDAO>> stateCodeComparator =
+        Comparator<Map.Entry<String, IndianCensusDAO>> stateCensusComparator =
                 Comparator.comparing(census -> census.getValue().state);
-        LinkedHashMap<String, IndianCensusDAO> sortedByValue = this.sort(stateCodeComparator);
+        LinkedHashMap<String, IndianCensusDAO> sortedByValue = this.sort(stateCensusComparator);
         CensusRecords = sortedByValue.values();
         String sortedStateCensusJson = new Gson().toJson(CensusRecords);
         return sortedStateCensusJson;
@@ -96,11 +96,12 @@ public class StateCensusAnalyser {
     //SORTING CSV FILE GENERIC METHOD
     private <E extends IndianCensusDAO> LinkedHashMap<String, IndianCensusDAO> sort(Comparator censusComparator) {
         Set<Map.Entry<String, IndianCensusDAO>> entries = censusDAOMap.entrySet();
-        List<Map.Entry<String, IndianCensusDAO>> listOfEntries = new ArrayList<Map.Entry<String, IndianCensusDAO>>(entries);
+        List<Map.Entry<String, IndianCensusDAO>> listOfEntries =
+                new ArrayList<Map.Entry<String, IndianCensusDAO>>(entries);
         Collections.sort(listOfEntries, censusComparator);
-        LinkedHashMap<String, IndianCensusDAO> sortedByValue = new LinkedHashMap<String, IndianCensusDAO>(listOfEntries.size());
-
-        // copying entries from List to Map
+        LinkedHashMap<String, IndianCensusDAO> sortedByValue =
+                new LinkedHashMap<String, IndianCensusDAO>(listOfEntries.size());
+        // COPING LIST TO MAP
         for (Map.Entry<String, IndianCensusDAO> entry : listOfEntries) {
             sortedByValue.put(entry.getKey(), entry.getValue());
         }
