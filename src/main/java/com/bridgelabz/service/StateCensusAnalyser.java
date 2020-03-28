@@ -1,6 +1,7 @@
 package com.bridgelabz.service;
 
 import com.bridgelabz.dao.IndianCensusDAO;
+import com.bridgelabz.dao.USCensusDAO;
 import com.bridgelabz.exception.CSVBuilderException;
 import com.bridgelabz.model.CSVStateCensus;
 
@@ -13,11 +14,13 @@ import java.util.*;
 import java.util.stream.StreamSupport;
 
 import com.bridgelabz.model.CSVStatesCode;
+import com.bridgelabz.model.USCensus;
 import com.google.gson.Gson;
 
 public class StateCensusAnalyser {
     Collection<IndianCensusDAO> CensusRecords = null;
     HashMap<String, IndianCensusDAO> censusDAOMap = new HashMap<String, IndianCensusDAO>();
+    HashMap<String, USCensusDAO> usCensusDAOHashMap = new  HashMap<String, USCensusDAO>();
 
     //READING STATE CENSUS DATA FROM CSV FILE
     public int loadStateCensusData(String csvPath) throws CSVBuilderException {
@@ -48,6 +51,25 @@ public class StateCensusAnalyser {
                     .map(CSVStatesCode.class::cast)
                     .forEach(csvStateCode -> censusDAOMap.put(csvStateCode.getStateName(), new IndianCensusDAO(csvStateCode)));
             return censusDAOMap.size();
+        } catch (IOException e) {
+            throw new CSVBuilderException
+                    (CSVBuilderException.ExceptionType.FILE_NOT_FOUND, e.getMessage());
+        } catch (RuntimeException e) {
+            throw new CSVBuilderException
+                    (CSVBuilderException.ExceptionType.INCORRECT_DELIMITER_OR_HEADER, e.getMessage());
+        }
+    }
+
+    //READING USCENSUS DATA FROM CSV FILE
+    public int loadUSCensusData(String csvPath) throws CSVBuilderException {
+        try (Reader reader = Files.newBufferedReader(Paths.get(csvPath));) {
+            ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
+            Iterator<USCensus> csvFileIterator = csvBuilder.getCSVFileIterator(reader, USCensus.class);
+            Iterable<USCensus> usCensusIterable = () -> csvFileIterator;
+            StreamSupport.stream(usCensusIterable.spliterator(), false)
+                    .map(USCensus.class::cast)
+                    .forEach(usCensus -> usCensusDAOHashMap.put(usCensus.getState(), new USCensusDAO(usCensus)));
+            return usCensusDAOHashMap.size();
         } catch (IOException e) {
             throw new CSVBuilderException
                     (CSVBuilderException.ExceptionType.FILE_NOT_FOUND, e.getMessage());
