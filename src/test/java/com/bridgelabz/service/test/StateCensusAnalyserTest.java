@@ -24,6 +24,8 @@ public class StateCensusAnalyserTest {
     private final String INCORRECT_EXTENSION_CSV_STATE_CODE = "./src/test/resources/StateCode.pdf";
     private final String INCORRECT_IN_DELIMITER_CSV_STATE_CODE_PATH = "./src/test/resources/StateCode1.csv";
     private final String INCORRECT_IN_HEADER_CSV_STATE_CODE_PATH = "./src/test/resources/StateCode 2.csv";
+    //CSV US CENSUS PATH
+    private final String CSV_US_CENSUS_PATH = "./src/test/resources/USCensusData.csv";
 
     @Test
     public void givenStateCensusCsvFile_WhenTrue_NumberOfRecordShouldMatch() throws CSVBuilderException {
@@ -210,5 +212,11 @@ public class StateCensusAnalyserTest {
         } catch (CSVBuilderException e) {
             e.printStackTrace();
         }
+    }
+
+    @Test
+    public void givenUSCensusCsvFile_WhenTrue_NumberOfRecordShouldMatch() throws CSVBuilderException {
+        int totalRecords = censusAnalyser.loadUSCensusData(CSV_US_CENSUS_PATH);
+        Assert.assertEquals(51, totalRecords);
     }
 }
