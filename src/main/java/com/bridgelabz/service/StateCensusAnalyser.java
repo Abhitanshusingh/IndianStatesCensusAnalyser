@@ -10,12 +10,13 @@ import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.StreamSupport;
 
 import com.bridgelabz.model.CSVStatesCode;
 import com.google.gson.Gson;
 
 public class StateCensusAnalyser {
-    Collection<com.bridgelabz.dao.IndianCensusDAO> CensusRecords = null;
+    Collection<IndianCensusDAO> CensusRecords = null;
     HashMap<String, IndianCensusDAO> censusDAOMap = new HashMap<String, IndianCensusDAO>();
 
     //READING STATE CENSUS DATA FROM CSV FILE
@@ -42,10 +43,10 @@ public class StateCensusAnalyser {
         try (Reader reader = Files.newBufferedReader(Paths.get(csvPath));) {
             ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
             Iterator<CSVStatesCode> csvFileIterator = csvBuilder.getCSVFileIterator(reader, CSVStatesCode.class);
-            while (csvFileIterator.hasNext()) {
-                IndianCensusDAO indianCensusDAO = new IndianCensusDAO(csvFileIterator.next());
-                this.censusDAOMap.put(indianCensusDAO.stateCode, indianCensusDAO);
-            }
+            Iterable<CSVStatesCode> csvStatesCodeIterable = () -> csvFileIterator;
+            StreamSupport.stream(csvStatesCodeIterable.spliterator(), false)
+                    .map(CSVStatesCode.class::cast)
+                    .forEach(csvStateCode -> censusDAOMap.put(csvStateCode.getStateName(), new IndianCensusDAO(csvStateCode)));
             return censusDAOMap.size();
         } catch (IOException e) {
             throw new CSVBuilderException
