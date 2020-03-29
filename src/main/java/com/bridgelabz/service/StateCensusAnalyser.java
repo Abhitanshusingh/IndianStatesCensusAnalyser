@@ -12,8 +12,8 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.StreamSupport;
 
-import com.bridgelabz.service.ICSVBuilder;
-import com.bridgelabz.service.CSVBuilderFactory;
+import com.bridgelabz.utility.CSVBuilderFactory;
+import com.bridgelabz.utility.ICSVBuilder;
 import com.bridgelabz.model.CSVStatesCode;
 import com.bridgelabz.model.USCensus;
 import com.google.gson.Gson;

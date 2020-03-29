@@ -1,9 +1,7 @@
-package com.bridgelabz.service;
+package com.bridgelabz.utility;
 
-public class CSVBuilderFactory
-{
-    public static ICSVBuilder createCSVBuilder()
-    {
+public class CSVBuilderFactory {
+    public static ICSVBuilder createCSVBuilder() {
         return new OpenCSVBuilderImp();
     }
 }

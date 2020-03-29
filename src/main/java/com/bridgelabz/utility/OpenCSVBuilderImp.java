@@ -1,4 +1,4 @@
-package com.bridgelabz.service;
+package com.bridgelabz.utility;
 
 import com.bridgelabz.exception.CSVBuilderException;
 import com.opencsv.bean.CsvToBean;
