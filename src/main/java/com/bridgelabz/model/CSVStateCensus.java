@@ -8,28 +8,28 @@ public class CSVStateCensus {
     private String State;
 
     @CsvBindByName(column = "Population")
-    private Double Population;
+    private Long Population;
 
     @CsvBindByName(column = "AreaInSqKm")
-    private Double AreaInSqKm;
+    private Long AreaInSqKm;
 
     @CsvBindByName(column = "DensityPerSqkm")
-    private Double DensityPerSqkm;
+    private Integer DensityPerSqkm;
 
     //GETTER SETTER METHOD
     public void setState(String state) {
         State = state;
     }
 
-    public void setPopulation(Double population) {
+    public void setPopulation(Long population) {
         Population = population;
     }
 
-    public void setAreaInSqKm(Double areaInSqKm) {
+    public void setAreaInSqKm(Long areaInSqKm) {
         AreaInSqKm = areaInSqKm;
     }
 
-    public void setDensityPerSqkm(Double densityPerSqkm) {
+    public void setDensityPerSqkm(Integer densityPerSqkm) {
         DensityPerSqkm = densityPerSqkm;
     }
 
@@ -37,15 +37,15 @@ public class CSVStateCensus {
         return State;
     }
 
-    public Double getPopulation() {
+    public Long getPopulation() {
         return Population;
     }
 
-    public Double getAreaInSqKm() {
+    public Long getAreaInSqKm() {
         return AreaInSqKm;
     }
 
-    public Double getDensityPerSqkm() {
+    public Integer getDensityPerSqkm() {
         return DensityPerSqkm;
     }
 }
