@@ -15,12 +15,17 @@ public class StateCensusAnalyser {
     CensusLoader censusLoader = new CensusLoader();
     Collection<CensusDAO> censusRecords = null;
     Map<String, CensusDAO> censusDAOMap = new HashMap<String, CensusDAO>();
-    public enum COUNTRY {INDIA,US}
+
+    public enum COUNTRY {INDIA, US}
 
     //GENERIC METHOD LOAD CSV FILE DATA
-    public int loadCensusData(COUNTRY country,String... csvFilePath) throws CSVBuilderException {
-        CensusAdapter censusDataLoader = CensusAdapterFactory.getCensusData(country);
-        censusDAOMap = censusDataLoader.loadCensusData(csvFilePath);
+    public int loadCensusData(COUNTRY country, String... csvFilePath) throws CSVBuilderException {
+        try {
+            CensusAdapter censusDataLoader = CensusAdapterFactory.getCensusData(country);
+            censusDAOMap = censusDataLoader.loadCensusData(csvFilePath);
+        } catch (CSVBuilderException e) {
+            throw new CSVBuilderException(CSVBuilderException.ExceptionType.INVALID_COUNTRY, "INVALID_COUNTRY_NAME");
+        }
         return censusDAOMap.size();
     }
 
