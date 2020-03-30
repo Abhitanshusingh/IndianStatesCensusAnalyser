@@ -20,12 +20,8 @@ public class StateCensusAnalyser {
 
     //GENERIC METHOD LOAD CSV FILE DATA
     public int loadCensusData(COUNTRY country, String... csvFilePath) throws CSVBuilderException {
-        try {
-            CensusAdapter censusDataLoader = CensusAdapterFactory.getCensusData(country);
-            censusDAOMap = censusDataLoader.loadCensusData(csvFilePath);
-        } catch (CSVBuilderException e) {
-            throw new CSVBuilderException(CSVBuilderException.ExceptionType.INVALID_COUNTRY, "INVALID_COUNTRY_NAME");
-        }
+        CensusAdapter censusDataLoader = CensusAdapterFactory.getCensusData(country);
+        censusDAOMap = censusDataLoader.loadCensusData(csvFilePath);
         return censusDAOMap.size();
     }
 
@@ -99,6 +95,19 @@ public class StateCensusAnalyser {
         Comparator<Map.Entry<String, CensusDAO>> stateCensusCSVComparator =
                 Comparator.comparing(census -> census.getValue().areaInSqKm);
         LinkedHashMap<String, CensusDAO> sortedByValue = this.sort(stateCensusCSVComparator);
+        ArrayList<CensusDAO> sortedList = new ArrayList<CensusDAO>(sortedByValue.values());
+        Collections.reverse(sortedList);
+        String sortedStateCensusPopulationJson = new Gson().toJson(sortedList);
+        return sortedStateCensusPopulationJson;
+    }
+
+    //SORTING CSV STATE CENSUS DATA POPULATION WISE
+    public String getUSCensusPopulationWiseSortedData() throws CSVBuilderException {
+        if (censusDAOMap == null || censusDAOMap.size() == 0)
+            throw new CSVBuilderException(CSVBuilderException.ExceptionType.NO_CENSUS_DATA, "No data found");
+        Comparator<Map.Entry<String, CensusDAO>> usCensusCSVComparator =
+                Comparator.comparing(census -> census.getValue().population);
+        LinkedHashMap<String, CensusDAO> sortedByValue = this.sort(usCensusCSVComparator);
         ArrayList<CensusDAO> sortedList = new ArrayList<CensusDAO>(sortedByValue.values());
         Collections.reverse(sortedList);
         String sortedStateCensusPopulationJson = new Gson().toJson(sortedList);
