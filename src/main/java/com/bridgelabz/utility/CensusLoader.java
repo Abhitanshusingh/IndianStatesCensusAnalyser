@@ -22,10 +22,10 @@ public class CensusLoader {
         try (Reader reader = Files.newBufferedReader(Paths.get(csvPath[0]))) {
             ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
             Iterator<CSVStateCensus> csvFileIterator = csvBuilder.getCSVFileIterator(reader, CSVStateCensus.class);
-            while (csvFileIterator.hasNext()) {
-                CensusDAO censusDAO = new CensusDAO(csvFileIterator.next());
-                censusDAOMap.put(censusDAO.state, censusDAO);
-            }
+            Iterable<CSVStateCensus> csvStateCensusIterable = () -> csvFileIterator;
+            StreamSupport.stream(csvStateCensusIterable.spliterator(),false)
+                    .map(CSVStateCensus.class::cast)
+                    .forEach(csvStateCensus -> censusDAOMap.put(csvStateCensus.getState(),new CensusDAO(csvStateCensus)));
             if (csvPath.length == 1)
                 return censusDAOMap;
             return loadStateCodeData(censusDAOMap, csvPath[1]);
@@ -44,10 +44,10 @@ public class CensusLoader {
         try (Reader reader = Files.newBufferedReader(Paths.get(csvPath));) {
             ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
             Iterator<CSVStatesCode> csvFileIterator = csvBuilder.getCSVFileIterator(reader, CSVStatesCode.class);
-            while (csvFileIterator.hasNext()) {
-                CensusDAO censusDAO = new CensusDAO(csvFileIterator.next());
-                censusDAOMap.put(censusDAO.state, censusDAO);
-            }
+            Iterable<CSVStatesCode> csvStateCodeIterable = () -> csvFileIterator;
+            StreamSupport.stream(csvStateCodeIterable.spliterator(),false)
+                    .map(CSVStatesCode.class::cast)
+                    .forEach(csvStateCode -> censusDAOMap.put(csvStateCode.getStateName(),new CensusDAO(csvStateCode)));
             return censusDAOMap;
         } catch (IOException e) {
             throw new CSVBuilderException
