@@ -9,7 +9,6 @@ public class CensusDAO {
     public Long areaInSqKm;
     public Integer densityPerSqKm;
     public Long population;
-    public String stateName;
     public String stateCode;
     public Integer srNo;
     public Integer tin;
@@ -25,11 +24,12 @@ public class CensusDAO {
     }
 
     public CensusDAO(CSVStatesCode csvStateCode) {
-        stateName = csvStateCode.getStateName();
+        state = csvStateCode.getStateName();
         stateCode = csvStateCode.getStateCode();
         srNo = csvStateCode.getSrNo();
         tin = csvStateCode.getTIN();
     }
+
     public CensusDAO(USCensus usCensus) {
         stateID = usCensus.getStateID();
         state = usCensus.getState();
