@@ -1,5 +1,7 @@
 package com.bridgelabz.service;
 
+import com.bridgelabz.adaptor.CensusAdapter;
+import com.bridgelabz.adaptor.CensusAdapterFactory;
 import com.bridgelabz.dao.CensusDAO;
 import com.bridgelabz.exception.CSVBuilderException;
 
@@ -12,15 +14,13 @@ import com.google.gson.Gson;
 public class StateCensusAnalyser {
     CensusLoader censusLoader = new CensusLoader();
     Collection<CensusDAO> censusRecords = null;
-    HashMap<String, CensusDAO> censusDAOMap = new HashMap<String, CensusDAO>();
+    Map<String, CensusDAO> censusDAOMap = new HashMap<String, CensusDAO>();
+    public enum COUNTRY {INDIA,US}
 
-    public int loadCensusData(String... csvFilePath) throws CSVBuilderException {
-        censusDAOMap = censusLoader.loadStateCensusData(censusDAOMap, csvFilePath);
-        return censusDAOMap.size();
-    }
-
-    public int loadUSCensusData(String... csvFilePath) throws CSVBuilderException {
-        censusDAOMap = censusLoader.loadUSCensusData(censusDAOMap, csvFilePath);
+    //GENERIC METHOD LOAD CSV FILE DATA
+    public int loadCensusData(COUNTRY country,String... csvFilePath) throws CSVBuilderException {
+        CensusAdapter censusDataLoader = CensusAdapterFactory.getCensusData(country);
+        censusDAOMap = censusDataLoader.loadCensusData(csvFilePath);
         return censusDAOMap.size();
     }
 
