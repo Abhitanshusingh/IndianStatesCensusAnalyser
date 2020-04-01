@@ -1,37 +1,39 @@
 package com.bridgelabz.adaptor;
+
 import com.bridgelabz.dao.CensusDAO;
 import com.bridgelabz.exception.CSVBuilderException;
-import com.bridgelabz.model.CSVStateCensus;
-import com.bridgelabz.model.CSVStatesCode;
-import com.bridgelabz.utility.CSVBuilderFactory;
-import com.bridgelabz.utility.ICSVBuilder;
+import com.bridgelabz.model.IndianStateCensusCSV;
+import com.bridgelabz.model.IndianStateCodeCSV;
 
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.stream.StreamSupport;
+
 public class IndiaCensusAdapter extends CensusAdapter {
+    HashMap<String, CensusDAO> censusDAOHashMap = null;
+
     @Override
-    public  Map<String, CensusDAO> loadCensusData(String... csvFilePath) throws CSVBuilderException {
-        Map<String, CensusDAO> censusStateMap = super.loadCensusData(CSVStateCensus.class, csvFilePath[0]);
+    public HashMap<String, CensusDAO> loadCensusData(String... csvFilePath) throws CSVBuilderException {
+        censusDAOHashMap = super.loadCensusData(IndianStateCensusCSV.class, csvFilePath[0]);
         if (csvFilePath.length == 1)
-            return  censusStateMap;
-        return this.loadStateCodeData(censusStateMap, csvFilePath[1]);
+            return censusDAOHashMap;
+        return this.loadStateCodeData(censusDAOHashMap, csvFilePath[1]);
     }
 
     //READING DATA FROM STATE CODE CSV FILE
-    public static Map<String, CensusDAO> loadStateCodeData(Map<String, CensusDAO> censusDAOMap, String getPath) throws CSVBuilderException {
+    public HashMap<String, CensusDAO> loadStateCodeData(HashMap<String, CensusDAO> censusDAOMap, String getPath) throws CSVBuilderException {
         try (Reader reader = Files.newBufferedReader(Paths.get(getPath))
         ) {
-            ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
-            Iterator<CSVStatesCode> csvFileIterator = csvBuilder.getCSVFileIterator(reader, CSVStatesCode.class);
-            Iterable<CSVStatesCode> csvStateCodeIterable = () -> csvFileIterator;
-            StreamSupport.stream(csvStateCodeIterable.spliterator(), false)
-                    .map(CSVStatesCode.class::cast)
-                    .forEach(csvStateCode -> censusDAOMap.put(csvStateCode.getStateName(), new CensusDAO(csvStateCode)));
+            Iterator<IndianStateCodeCSV> csvFileIterator = csvBuilder.getCSVFileIterator(reader, IndianStateCodeCSV.class);
+            Iterable<IndianStateCodeCSV> csvIterable = () -> csvFileIterator;
+            StreamSupport.stream(csvIterable.spliterator(), false)
+                    .map(IndianStateCodeCSV.class::cast)
+                    .forEach(csvStateCode -> censusDAOMap.put(csvStateCode.stateName, new CensusDAO(csvStateCode)));
             return censusDAOMap;
         } catch (IOException e) {
             throw new CSVBuilderException(CSVBuilderException.ExceptionType.FILE_NOT_FOUND,
