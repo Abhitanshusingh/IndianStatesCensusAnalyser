@@ -54,4 +54,15 @@ public class CensusAnalyser {
                 .collect(Collectors.toCollection(ArrayList::new));
         return new Gson().toJson(censusDTO);
     }
+    //SORTING BOTH POPULATION AND DENSITY
+    public String getDualSortByPopulationDensity() throws CSVBuilderException {
+        if (censusDAOHashMap == null || censusDAOHashMap.size() == 0)
+            throw new CSVBuilderException(CSVBuilderException.ExceptionType.NO_CENSUS_DATA, "No Census Data");
+        ArrayList censusDTO = censusDAOHashMap.values().stream()
+                .sorted(Comparator.comparingInt(CensusDAO::getPopulation)
+                        .thenComparingDouble(CensusDAO::getPopulationDensity).reversed())
+                .map(c -> c.getCensusDTO(country))
+                .collect(Collectors.toCollection(ArrayList::new));
+        return new Gson().toJson(censusDTO);
+    }
 }
