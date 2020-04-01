@@ -1,4 +1,4 @@
-package com.bridgelabz.model;
+package com.bridgelabz.dto;
 
 import com.opencsv.bean.CsvBindByName;
 
@@ -7,7 +7,7 @@ public class IndianStateCensusCSV {
     public String state;
 
     @CsvBindByName(column = "Population")
-    public Long population;
+    public Integer population;
 
     @CsvBindByName(column = "AreaInSqKm")
     public Double areaInSqKm;
@@ -20,7 +20,7 @@ public class IndianStateCensusCSV {
     public IndianStateCensusCSV() {
     }
 
-    public IndianStateCensusCSV(String state, String stateCode, Long population, Double areaInSqKm, Float densityPerSqkm) {
+    public IndianStateCensusCSV(String state, String stateCode, Integer population, Double areaInSqKm, Float densityPerSqkm) {
         this.stateCode = stateCode;
         this.state = state;
         this.population = population;
