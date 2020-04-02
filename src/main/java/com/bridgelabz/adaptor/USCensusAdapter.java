@@ -2,7 +2,7 @@ package com.bridgelabz.adaptor;
 
 import com.bridgelabz.dao.CensusDAO;
 import com.bridgelabz.exception.CSVBuilderException;
-import com.bridgelabz.model.USCensus;
+import com.bridgelabz.dto.USCensus;
 
 import java.util.HashMap;
 

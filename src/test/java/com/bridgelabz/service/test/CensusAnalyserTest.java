@@ -1,8 +1,8 @@
 package com.bridgelabz.service.test;
 
 import com.bridgelabz.exception.CSVBuilderException;
-import com.bridgelabz.model.IndianStateCensusCSV;
-import com.bridgelabz.model.USCensus;
+import com.bridgelabz.dto.IndianStateCensusCSV;
+import com.bridgelabz.dto.USCensus;
 import com.bridgelabz.service.CensusAnalyser;
 import com.google.gson.Gson;
 import org.junit.Assert;

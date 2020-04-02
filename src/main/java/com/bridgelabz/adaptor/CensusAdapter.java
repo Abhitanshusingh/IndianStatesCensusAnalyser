@@ -2,12 +2,10 @@ package com.bridgelabz.adaptor;
 
 import com.bridgelabz.dao.CensusDAO;
 import com.bridgelabz.exception.CSVBuilderException;
-import com.bridgelabz.model.IndianStateCensusCSV;
-import com.bridgelabz.model.IndianStateCodeCSV;
-import com.bridgelabz.model.USCensus;
+import com.bridgelabz.dto.IndianStateCensusCSV;
+import com.bridgelabz.dto.USCensus;
 import com.bridgelabz.utility.CSVBuilderFactory;
 import com.bridgelabz.utility.ICSVBuilder;
-import org.apache.commons.collections.map.HashedMap;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -27,12 +25,12 @@ public abstract class CensusAdapter {
         try (Reader reader = Files.newBufferedReader(Paths.get(getPath[0]))) {
             Iterator<E> csvFileIterator = csvBuilder.getCSVFileIterator(reader, censusCSVClass);
             Iterable<E> csvIterable = () -> csvFileIterator;
-            if (censusCSVClass.getName().equals("com.bridgelabz.model.IndianStateCensusCSV")) {
+            if (censusCSVClass.getName().equals("com.bridgelabz.dto.IndianStateCensusCSV")) {
                 StreamSupport.stream(csvIterable.spliterator(), false)
                         .map(IndianStateCensusCSV.class::cast)
                         .forEach(censusCSV -> censusDAOMap.put(censusCSV.state, new CensusDAO((IndianStateCensusCSV) censusCSV)));
             }
-            if (censusCSVClass.getName().equals("com.bridgelabz.model.USCensus")) {
+            if (censusCSVClass.getName().equals("com.bridgelabz.dto.USCensus")) {
                 StreamSupport.stream(csvIterable.spliterator(), false)
                         .map(USCensus.class::cast)
                         .forEach(censusCSV -> censusDAOMap.put(censusCSV.state, new CensusDAO(censusCSV)));
